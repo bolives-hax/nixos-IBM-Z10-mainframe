@@ -13,16 +13,49 @@
       z10 = nixpkgs.lib.nixosSystem {
         system = "s390x-linux";
         modules = [
+          # make a tarball
+          ({pkgs,config,modulesPath,...}: {
+	    system.build.tarball = pkgs.callPackage "${modulesPath}/../lib/make-system-tarball.nix" {
+              extraArgs = "--owner=0";
+
+
+              storeContents = [
+                {
+                  object = config.system.build.toplevel;
+                  symlink = "none";
+                }
+              ];
+
+
+
+              contents = [
+                {
+                  source = config.system.build.toplevel + "/init";
+                  target = "/sbin/init";
+                }
+                # Technically this is not required for lxc, but having also make this configuration work with systemd-nspawn.
+                # Nixos will setup the same symlink after start.
+                {
+                  source = config.system.build.toplevel + "/etc/os-release";
+                  target = "/etc/os-release";
+                }
+              ];
+              # TB
+
+
+              extraCommands = "mkdir -p proc sys dev";
+            };
+          })
           ({ config, pkgs, lib, ... }: {
             boot = {
               loader = {
                 grub.enable = lib.mkDefault false;
                 generic-extlinux-compatible.enable = lib.mkDefault true;
               };
-              kernelPackages = lib.mkDefault
-                (pkgs.callPackage ./kernel_packages.nix {
-                  inherit (config.boot) kernelPatches;
-                });
+              #kernelPackages = lib.mkDefault
+              #  (pkgs.callPackage ./kernel_packages.nix {
+              #    inherit (config.boot) kernelPatches;
+              #  });
             };
           })
           ({ pkgs, ... }: {

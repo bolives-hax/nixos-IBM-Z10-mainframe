@@ -1,0 +1,45 @@
+{
+  "nodes": {
+    "libfuse": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1721996235,
+        "narHash": "sha256-oOpOhw1a3nqqv5TXpCcmMGhwWPfsaxUv0DT7xLZkjj4=",
+        "owner": "bolives-hax",
+        "repo": "libfuse",
+        "rev": "66fab2b4805dd411d3f066d0c97e40582bf5c77c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bolives-hax",
+        "ref": "s390x-fix",
+        "repo": "libfuse",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1722010966,
+        "narHash": "sha256-GLdsZHbUNyzHetUKezuRUxjoSHxC++SxD+dOCHgrnLc=",
+        "owner": "bolives-hax",
+        "repo": "nixpkgs",
+        "rev": "de2df26499cfad9cd005d5d9528290820906151f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bolives-hax",
+        "ref": "s390-tools-testing-staging-cython-fix",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "libfuse": "libfuse",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
