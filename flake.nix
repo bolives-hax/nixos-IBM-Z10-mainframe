@@ -105,7 +105,8 @@
             #};
             environment.defaultPackages = with pkgs;
               [
-	        lix
+	        lix #doesn't build on alpine nix somehow
+		vim
 	        gcc
 		rustc
 		cargo
