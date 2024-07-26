@@ -11,10 +11,10 @@
   outputs = { self, nixpkgs, libfuse }: {
     nixosConfigurations = {
       z10 = nixpkgs.lib.nixosSystem {
-        system = "s390x-linux";
         modules = [
           # make a tarball
-          ({pkgs,config,modulesPath,...}: {
+          ({pkgs,config,modulesPath,lib,...}: {
+		nixpkgs.hostPlatform = ({ system = "s390x-linux"; } // lib.systems.platforms.z10);
 	    system.build.tarball = pkgs.callPackage "${modulesPath}/../lib/make-system-tarball.nix" {
               extraArgs = "--owner=0";
 
@@ -80,17 +80,19 @@
               */
             ];
             nixpkgs.config.allowUnsupportedSystem = true;
+	    /*
             nixpkgs.hostPlatform.system = "s390x-linux";
-            nixpkgs.buildPlatform.system =
-              "x86_64-linux"; # If you build on x86 other wise changes this.
             nixpkgs.hostPlatform.linux-kernel = {
               target = "bzImage";
               name = "s390-baka";
               autoModules = false;
               baseConfig = "defconfig"; # "minimal_s390x_defconfig";
             };
+	   */
             # ... extra configs as above
             #services.xserver.enable = true;
+            nixpkgs.buildPlatform.system =
+              "x86_64-linux"; # If you build on x86 other wise changes this.
 
             imports = [
               "${nixpkgs}/nixos/modules/profiles/headless.nix"
@@ -103,13 +105,19 @@
             #};
             environment.defaultPackages = with pkgs;
               [
+	        lix
+	        gcc
+		rustc
+		cargo
+	        kexec-tools
+	        s390-tools
                 neofetch
                 /* (dyalog.override {
                      allowUnfree = true;
                    })
                 */
               ];
-            services.xserver.windowManager.dwm.enable = true;
+            #services.xserver.windowManager.dwm.enable = true;
             boot.loader.grub = { enable = false; };
             fileSystems = { "/" = { fsType = "tmpfs"; }; };
             /* boot.loader.generic-extlinux-compatible = {
