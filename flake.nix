@@ -110,9 +110,9 @@
             environment.defaultPackages = with pkgs;
               [
                 #lix
-	        gcc
-		rustc
-		cargo
+                #gcc
+                #rustc
+                #cargo
 	        kexec-tools
                 #s390-tools
                 neofetch
