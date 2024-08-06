@@ -3,8 +3,8 @@
     nixpkgs = {
     #  #url = "github:bolives-hax/nixpkgs/s390-tools-testing-staging-cython-fix";
        #url = "path:/home/flandre/nixos-IBM-Z10-mainframe/nixpkgs";
-      #url = "path:/tmp//stdenv-nixpkgs-commit";
-      url = "github:bolives-hax/nixpkgs/add-s390x-installer-cdrom-test";
+      url = "path:/tmp//stdenv-nixpkgs-commit";
+      #url = "github:bolives-hax/nixpkgs/add-s390x-installer-cdrom-test";
     #  
     };
     libfuse = {
@@ -12,43 +12,43 @@
       flake = false;
     };
   };
-  outputs = { self, nixpkgs, libfuse }: {
+  outputs = { self, nixpkgs, libfuse}: {
     nixosConfigurations = {
       z10 = nixpkgs.lib.nixosSystem {
         modules = [
           # make a tarball
           ({pkgs,config,modulesPath,lib,...}: {
 		nixpkgs.hostPlatform = ({ system = "s390x-linux"; } // lib.systems.platforms.z10);
-	    system.build.tarball = pkgs.callPackage "${modulesPath}/../lib/make-system-tarball.nix" {
-              extraArgs = "--owner=0";
+            #system.build.tarball = pkgs.callPackage "${modulesPath}/../lib/make-system-tarball.nix" {
+            #  extraArgs = "--owner=0";
 
 
-              storeContents = [
-                {
-                  object = config.system.build.toplevel;
-                  symlink = "none";
-                }
-              ];
+            #  storeContents = [
+            #    {
+            #      object = config.system.build.toplevel;
+            #      symlink = "none";
+            #    }
+            #  ];
 
 
 
-              contents = [
-                {
-                  source = config.system.build.toplevel + "/init";
-                  target = "/sbin/init";
-                }
-                # Technically this is not required for lxc, but having also make this configuration work with systemd-nspawn.
-                # Nixos will setup the same symlink after start.
-                {
-                  source = config.system.build.toplevel + "/etc/os-release";
-                  target = "/etc/os-release";
-                }
-              ];
-              # TB
+            #  contents = [
+            #    {
+            #      source = config.system.build.toplevel + "/init";
+            #      target = "/sbin/init";
+            #    }
+            #    # Technically this is not required for lxc, but having also make this configuration work with systemd-nspawn.
+            #    # Nixos will setup the same symlink after start.
+            #    {
+            #      source = config.system.build.toplevel + "/etc/os-release";
+            #      target = "/etc/os-release";
+            #    }
+            #  ];
+            #  # TB
 
 
-              extraCommands = "mkdir -p proc sys dev";
-            };
+            #  extraCommands = "mkdir -p proc sys dev";
+            #};
           })
           ({ config, pkgs, lib, ... }: {
             boot = {
@@ -75,6 +75,12 @@
               (final: prev: {
                 libressl = prev.openssl // ({ nc = prev.netcat-gnu; });
               })
+              #(final: prev: let 
+    #oldpkgs = #import opkgs {system="x86_64-linux"; }; #({ system = "s390x-linux"; } // prev.lib.systems.platforms.z10);
+              #in {
+              #  systemd = oldpkgs.pkgsCross.s390x.systemd;
+              #})
+              
               /* (final: prev: {
                   sway = prev.sway.override (  {
                    isNixOS = false;
@@ -99,7 +105,7 @@
               "x86_64-linux"; # If you build on x86 other wise changes this.
 
             imports = [
-              "${nixpkgs}/nixos/modules/profiles/headless.nix"
+              #"${nixpkgs}/nixos/modules/profiles/headless.nix"
               "${nixpkgs}/nixos/modules/profiles/minimal.nix"
               "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image-s390x.nix"
             ];
@@ -133,15 +139,14 @@
             #boot.initrd.includeDefaultModules = false;
             #boot.initrd.kernelModules = [ "ext4" ];
             disabledModules = [
-              "${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
-              "${nixpkgs}/nixos/modules/profiles/base.nix"
+              #"${nixpkgs}/nixos/modules/profiles/all-hardware.nix"
+              #"${nixpkgs}/nixos/modules/profiles/base.nix"
             ];
 
             # disable useless software
             #xdg.icons.enable  = false;
             #xdg.mime.enable   = false;
             #xdg.sounds.enable = false;
-
           })
         ];
       };
