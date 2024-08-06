@@ -3,7 +3,8 @@
     nixpkgs = {
     #  #url = "github:bolives-hax/nixpkgs/s390-tools-testing-staging-cython-fix";
        #url = "path:/home/flandre/nixos-IBM-Z10-mainframe/nixpkgs";
-      url = "path:/tmp//stdenv-nixpkgs-commit";
+      #url = "path:/tmp//stdenv-nixpkgs-commit";
+      url = "github:bolives-hax/nixpkgs/add-s390x-installer-cdrom-test";
     #  
     };
     libfuse = {
