@@ -17,9 +17,22 @@
         "type": "github"
       }
     },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1722462858,
+        "narHash": "sha256-p3Rbo2vItY10cvDm1BPfL0dcXL02As3f1TDzSziooI4=",
+        "path": "/home/flandre/nixos-IBM-Z10-mainframe/nixpkgs",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/flandre/nixos-IBM-Z10-mainframe/nixpkgs",
+        "type": "path"
+      }
+    },
     "root": {
       "inputs": {
-        "libfuse": "libfuse"
+        "libfuse": "libfuse",
+        "nixpkgs": "nixpkgs"
       }
     }
   },

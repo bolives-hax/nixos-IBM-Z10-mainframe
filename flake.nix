@@ -1,7 +1,10 @@
 {
   inputs = {
     nixpkgs = {
-      url = "github:bolives-hax/nixpkgs/s390-tools-testing-staging-cython-fix";
+    #  #url = "github:bolives-hax/nixpkgs/s390-tools-testing-staging-cython-fix";
+       #url = "path:/home/flandre/nixos-IBM-Z10-mainframe/nixpkgs";
+      url = "path:/tmp//stdenv-nixpkgs-commit";
+    #  
     };
     libfuse = {
       url = "github:bolives-hax/libfuse/s390x-fix";
@@ -97,7 +100,7 @@
             imports = [
               "${nixpkgs}/nixos/modules/profiles/headless.nix"
               "${nixpkgs}/nixos/modules/profiles/minimal.nix"
-
+              "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image-s390x.nix"
             ];
 
             #services.nginx = {
@@ -105,12 +108,12 @@
             #};
             environment.defaultPackages = with pkgs;
               [
-	        lix
+                #lix
 	        gcc
 		rustc
 		cargo
 	        kexec-tools
-	        s390-tools
+                #s390-tools
                 neofetch
                 /* (dyalog.override {
                      allowUnfree = true;
