@@ -17,9 +17,26 @@
         "type": "github"
       }
     },
+    "nixpkgs": {
+      "locked": {
+        "dirtyRev": "685ec10b21d8df0aae4682736bb04e0a8e61bbe7-dirty",
+        "dirtyShortRev": "685ec10b2-dirty",
+        "lastModified": 1724915543,
+        "narHash": "sha256-lgfEGvkIWhox3h1o6d1FAqhetitQ2WjwJv2ixnqrgBs=",
+        "shallow": true,
+        "type": "git",
+        "url": "file:///tmp/nixpkgs-p"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "file:///tmp/nixpkgs-p"
+      }
+    },
     "root": {
       "inputs": {
-        "libfuse": "libfuse"
+        "libfuse": "libfuse",
+        "nixpkgs": "nixpkgs"
       }
     }
   },
