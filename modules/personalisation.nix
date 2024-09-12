@@ -1,4 +1,4 @@
-{ pkgs , ...}:
+{ pkgs, ... }:
 {
 
   users.users.flandre = {
@@ -6,7 +6,7 @@
     extraGroups = [ "wheel" ];
     isNormalUser = true;
     openssh.authorizedKeys.keys = [
-	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElUjkC47A1SocplhjDrfoMdIiL8XS+aZAq18MEpY4/M flandre@nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElUjkC47A1SocplhjDrfoMdIiL8XS+aZAq18MEpY4/M flandre@nixos"
     ];
   };
   security.sudo.wheelNeedsPassword = false;

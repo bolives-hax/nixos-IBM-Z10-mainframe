@@ -12,7 +12,7 @@
   nixpkgs.flake.setNixPath = true;
 
   services.openssh = {
-	enable = true;
-	ports = [ 2222 ];
+    enable = true;
+    ports = [ 2222 ];
   };
 }
