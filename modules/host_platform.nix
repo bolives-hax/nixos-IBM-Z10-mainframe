@@ -1,6 +1,7 @@
 # TODO supply this over instead lib.systems.platforms.z10;
 {
   nixpkgs.hostPlatform = {
+    system = "s390x-linux";
     linux-kernel = {
       target = "bzImage";
       name = "s390x-defconfig";
