@@ -1,5 +1,4 @@
 # this creates a nixos system tarball 
-(
   {
     pkgs,
     config,
@@ -33,5 +32,4 @@
       ];
       extraCommands = "mkdir -p proc sys dev";
     };
-  }
-)
+}

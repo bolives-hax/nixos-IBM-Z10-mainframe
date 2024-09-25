@@ -2,7 +2,8 @@
   inputs = {
     nixpkgs = {
       #url = "path:/home/flandre/nixpkgs-p";
-      url = "/tmp/nixpkgs-p";
+      url = "path:/tmp/nixpkgs-p";
+      #url = "github:bolives-hax/nixpkgs/lxc-image-fixes";
     };
     libfuse-fixes = {
       url = "github:bolives-hax/libfuse/s390x-fix";
@@ -27,73 +28,54 @@
         };
         system = "s390x-linux";
         modules = [
-          ./modules/nixpkgs.nix
+          ./modules/nixpkgs-fixes.nix
           ./modules/disabled.nix
-          # make a tarball
-          #./modules/make-tarball.nix
           ./modules/personalisation.nix
           ./modules/host_platform.nix
           ./modules/common.nix
           ./modules/network.nix
+
+
           #./modules/hydra.nix
-          #./modules/lxc.nix
-          (
-            { pkgs, ... }:
-            {
 
-              imports = [
-                "${nixpkgs}/nixos/modules/profiles/headless.nix"
-                "${nixpkgs}/nixos/modules/profiles/minimal.nix"
-              ];
-
-            }
-          )
+	  # do we want these profiles for all releases?
+          "${nixpkgs}/nixos/modules/profiles/headless.nix"
+          "${nixpkgs}/nixos/modules/profiles/minimal.nix"
         ];
       };
     in
     {
-      packages.s390x-linux.lxc_image = nixos-generators.nixosGenerate ({
+      packages.s390x-linux = let mkLxc = format: nixos-generators.nixosGenerate ({
         inherit (sys) system;
-        specialArgs = sys.specialArgs // {
-          pkgs = import nixpkgs {
-            localSystem = {
-              gcc.arch = "z10";
-              inherit (sys) system;
-            };
-          };
-        };
-        modules = sys.modules ++ [
-          {
-            nixpkgs.hostPlatform.gcc.arch = "z10"; # "s390x-linux";
-          }
-          #./modules/lxc.nix
-        ];
-        format = "lxc";
-      });
-      nixosConfigurations = {
-        z10 = nixpkgs.lib.nixosSystem {
-          inherit (sys) system specialArgs;
-          modules = sys.modules ++ [
-            (
-              {
-                config,
-                pkgs,
-                lib,
-                ...
-              }:
-              {
-                boot = {
-                  loader = {
-                    grub.enable = lib.mkDefault false;
-                    # V TODO 
-                    generic-extlinux-compatible.enable = lib.mkDefault true;
-                  };
-                };
-              }
-            )
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image-s390x.nix"
-          ];
-        };
+        specialArgs = sys.specialArgs;
+        modules = sys.modules;
+	inherit format;
+      }); in {
+	lxcImage = mkLxc "lxc";
+	lxcImageMetadata = mkLxc "lxc-metadata";
+	tarball = (nixpkgs.lib.nixosSystem {
+		inherit (sys) system specialArgs;
+		modules = sys.modules ++ [
+          		# make a tarball
+			./modules/tarball.nix
+		];
+	}).config.system.build.tarball;
+	iso = (nixpkgs.lib.nixosSystem {
+		inherit (sys) system specialArgs;
+		modules = sys.modules ++ [
+
+	  		# only include this in the iso temporarily
+	  		#./modules/child-system.nix
+
+  			"${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image-s390x.nix"
+			# IBMs buildservers don't natively support nix
+			# ( afterall they gave me access to ... support nix ... )
+			# but allow me to use kvm, thus make sure to include lxc to allow using
+			# multiple nixos containers in there <which can be build like above>
+          		./modules/lxc.nix
+			./modules/iso.nix
+		];
+	}).config.system.build.isoImage;
       };
     };
 }

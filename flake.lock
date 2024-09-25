@@ -1,6 +1,6 @@
 {
   "nodes": {
-    "libfuse": {
+    "libfuse-fixes": {
       "flake": false,
       "locked": {
         "lastModified": 1721996235,
@@ -19,11 +19,11 @@
     },
     "nixlib": {
       "locked": {
-        "lastModified": 1725152544,
-        "narHash": "sha256-Tm344cnFM9f2YZsgWtJduvhIrvLr3Bi8J4Xc+UZDKYE=",
+        "lastModified": 1726966855,
+        "narHash": "sha256-25ByioeOBFcnitO5lM/Mufnv/u7YtHEHEM8QFuiS40k=",
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "rev": "7f0b9e4fbd91826cb9ce6babbc11c87903191051",
+        "rev": "575704ff85d3a41dc5bfef7b55380cbc7b87f3c2",
         "type": "github"
       },
       "original": {
@@ -40,11 +40,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1725497951,
-        "narHash": "sha256-fayKyVs/9FQdYH+3SCOkQM1GCsEPPVE+lSiVGlYQ7i0=",
+        "lastModified": 1727053438,
+        "narHash": "sha256-t/+z1Tf7hSaStU1pBYkY7i0/GkG+YIPSmfeRrK8eYUw=",
         "owner": "nix-community",
         "repo": "nixos-generators",
-        "rev": "15a07ebf4a041bf232026263f1f96f2af390f3bc",
+        "rev": "e8c1cd886cc17e31e424f915efd32e84d8af0ce9",
         "type": "github"
       },
       "original": {
@@ -55,23 +55,19 @@
     },
     "nixpkgs": {
       "locked": {
-        "dirtyRev": "004262c7df2a714edff6588db39cd7015e9e0eb2-dirty",
-        "dirtyShortRev": "004262c7d-dirty",
-        "lastModified": 1725381910,
-        "narHash": "sha256-OaIdhflgbdD78BJKrfFryhM5mqJ6OPlpVaCXYxP2ePo=",
-        "shallow": true,
-        "type": "git",
-        "url": "file:///tmp/nixpkgs-p"
+        "lastModified": 1727266909,
+        "narHash": "sha256-DwngXJMHJhkDY2GIBpTX9CR1eaIIU7F1Q0V6hTTazaY=",
+        "path": "/tmp/nixpkgs-p",
+        "type": "path"
       },
       "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "file:///tmp/nixpkgs-p"
+        "path": "/tmp/nixpkgs-p",
+        "type": "path"
       }
     },
     "root": {
       "inputs": {
-        "libfuse": "libfuse",
+        "libfuse-fixes": "libfuse-fixes",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs"
       }

@@ -1,4 +1,4 @@
-{ nixpkgs, libfuse-fixes, ... }:
+{  libfuse-fixes, ... }:
 {
   nixpkgs = {
     overlays = [
