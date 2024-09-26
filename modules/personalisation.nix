@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   # TODO split this up in modules so our ssh key also doesn't leak into releases (it probably leaekd into the first 2 debug releases)
 
@@ -10,11 +10,13 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElUjkC47A1SocplhjDrfoMdIiL8XS+aZAq18MEpY4/M flandre@nixos"
     ];
   };
+users.users.root.password = "root";
   security.sudo.wheelNeedsPassword = false;
   users.groups.flandre = { };
   services.getty.autologinUser = "flandre";
 
   environment.defaultPackages = with pkgs; [
+bcc #ebpf tracing tools
     lix
     gcc
     rustc
@@ -79,9 +81,36 @@
     #age
     #gnupg
 
+    ((config.boot.kernelPackages).perf)
+    fio
+    iotop
+    perf-tools
 
+    lsof
 
+   dash #fish
+busybox
+sysstat
+sysbench
 
   ];
+    /* moved to installer/cd-dvd/iso-image-s390x.nix
+    boot.kernelPackages = pkgs.linuxPackagesFor ( pkgs.linuxPackages_latest.kernel.override {
+	structuredExtraConfig = with lib.kernel; {
+		EARLY_PRINTK = yes;
+		CRASH_DUMP = lib.mkForce yes;
+                DEBUG_INFO = yes;
+                EXPERT = yes;
+                DEBUG_KERNEL = yes;
+		TASK_DELAY_ACCT = yes;
+		IKHEADERS= yes; # bcc needs this for memleak testing
+
+		# test if that fixes kernel
+		SCLP_TTY = yes;
+		SCLP_CONSOLE = yes;
+		SCLP_VT220_TTY = yes;
+		SCLP_VT220_CONSOLE = yes;
+	};
+    });  */
   #services.xserver.windowManager.dwm.enable = true;
 }

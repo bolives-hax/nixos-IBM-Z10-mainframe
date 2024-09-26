@@ -2,8 +2,8 @@
   inputs = {
     nixpkgs = {
       #url = "path:/home/flandre/nixpkgs-p";
-      url = "path:/tmp/nixpkgs-p";
-      #url = "github:bolives-hax/nixpkgs/lxc-image-fixes";
+      #url = "path:/tmp/nixpkgs-p";
+      url = "github:bolives-hax/nixpkgs/zz"; # lxc-image-fixes";
     };
     libfuse-fixes = {
       url = "github:bolives-hax/libfuse/s390x-fix";
@@ -39,7 +39,7 @@
           #./modules/hydra.nix
 
 	  # do we want these profiles for all releases?
-          "${nixpkgs}/nixos/modules/profiles/headless.nix"
+          #"${nixpkgs}/nixos/modules/profiles/headless.nix"
           "${nixpkgs}/nixos/modules/profiles/minimal.nix"
         ];
       };
@@ -64,6 +64,7 @@
 		inherit (sys) system specialArgs;
 		modules = sys.modules ++ [
 
+			#{ boot.kernelParams = [ "boot.debug1devices" "boot.shell_on_fail" ]; }
 	  		# only include this in the iso temporarily
 	  		#./modules/child-system.nix
 

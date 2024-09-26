@@ -1,13 +1,16 @@
-{nixpkgs,...}: {
+{nixpkgs,libfuse-fixes,...}: {
   environment.etc.s = {
-	source  = (nixpkgs.lib.nixosSystem {
+	source  = "${(nixpkgs.lib.nixosSystem {
     	system = "s390x-linux";
+        specialArgs = {
+		inherit libfuse-fixes;
+	};
     	modules = [
           ./nixpkgs-fixes.nix
           ./host_platform.nix
     	  {
     	    boot.kernelParams = [
-    	      #"lol"
+    	      #"lol" 
     	    ];
     	    #system.stateVerison = "24.0";
     	    boot.loader.zipl = {
@@ -20,6 +23,6 @@
     	    };
     	  }
     	];
-     }).config.system.build.toplevel;
+     }).config.system.build.toplevel}";
   };
 }
