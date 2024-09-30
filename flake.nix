@@ -64,7 +64,8 @@
 		inherit (sys) system specialArgs;
 		modules = sys.modules ++ [
 
-			#{ boot.kernelParams = [ "boot.debug1devices" "boot.shell_on_fail" ]; }
+			#{ boot.kernelParams = [ "boot.debug1devices" "boot.shell_on_fail" "systemd.debug-shell=1" "boot.debug1" "boot.debug2" "systemd.setenv=SYSTEMD_SULOGIN_FORCE=1" "boot.debugtrace" "boot.trace" ]; }
+			#{ boot.kernelParams = [  "boot.shell_on_fail" "systemd.debug-shell=1" "boot.debug1" "boot.debugtrace" "boot.trace" ]; }
 	  		# only include this in the iso temporarily
 	  		#./modules/child-system.nix
 
@@ -76,7 +77,7 @@
           		./modules/lxc.nix
 			./modules/iso.nix
 		];
-	}).config.system.build.isoImage;
+	});
       };
     };
 }
